@@ -1,24 +1,29 @@
 # algosec-resilient [![Build Status](https://travis-ci.com/algosec/algosec-resilient.svg?branch=master)](https://travis-ci.com/algosec/algosec-resilient) [![Codecov](https://img.shields.io/codecov/c/github/algosec/algosec-resilient.svg)](https://codecov.io/gh/algosec/algosec-resilient)
 
+AlgoSec Incident Response extension for IBM Resilient.
+This module extends Resilient and automatically enriches security incidents with business and network context.
+It also allows the security analyst to quickly isolate compromised servers from the network, via AlgoSec, from the comfort of the Resilient UI.
+This extension requires the AlgoSec Security Management Solution to be deployed in your network, to provide the above capabilities.
+
 ## TOC
 
-1. [What's In This Package](#What's-In-This-Package)
-    1. Isolate IP From The Rest Of Your Network
-    2. List Associated Applications
-    3. Check If A Given IP Is Connected To The Internet
+1. [Package Contents](#Package-Contents)
+    1. Isolate IP from the network
+    2. List associated business applications
+    3. Check if a given IP has access to the Internet
 2. [Installation & Configuration](#installation-&-configuration)
-    1. [TL; DR](#TL;-DR) - For the brave souls who wish to skip the instructions altogether.
-    2. Or a [Step by Step](#Installation) for a full in-depth explanation of each step we make.
-3. [Things You Should Know To Extend This Integration](#Development) (You should definitely totally ignore this section completely if you are just here to use this module =) )
+    1. [TL; DR](#TL;-DR) - Short version to get up and running quickly
+    2. Or a [Step by Step](#Installation) for a full in-depth explanation of each step we make
+3. [How To Further Extend This Integration](#Development) (for developers only)
 
 
-## What's In This Package
+## Package Contents
 
-The integration demonstrates key features offered by AlgoSec to simplify and enhance the security researcher's workflows. This package is also intended to support developers who wish to extend the functionality already offered. This package features 3 integration workflows:
+The integration demonstrates key features offered by AlgoSec to simplify and enhance the security analyst's workflows. This package is also intended to support developers who wish to extend the functionality already offered. The package features 3 integration workflows:
 
-1. Isolate IP Address From The Rest Of The Network - 
-2. List Associated Application By IP - 
-3. Check Internet Connectivity By IP - 
+1. Isolate IP address from the network - Triggers a call to AlgoSec to open an automated change request to isolate a given server from the network, by blocking all traffic to and from the server on the relevant firewalls and security constructs around it.
+2. List associated business application by IP - Find all business applications defined in AlgoSec that are associated with a given IP, to reflect the potential business impact (and relevant business owners) of this security incident
+3. Check Internet connectivity by IP - Check if a given server has access to the internet (enriches security incident information with potential for data exfiltration)
 
 Please remember that each function is shipped both independently and as a part of a greater Workflow/Rule/Data Table example. To make it simple, please keep this in mind:
 
@@ -28,9 +33,9 @@ Please remember that each function is shipped both independently and as a part o
 * Each one of the __Workflows__ are triggered by example __Rules__ shipped with this integration.
 * Some of the __Rules__ are automatic upon Incidents/Artifacts creation, and some are set to trigger when a specific menu-action is clicked.
 
-### Isolation Request
+### Configuration
 
-#### Configuration
+#### Isolation Request
 
 As mentioned, the isolation request function will create a new Traffic Change Request on AlgoSec FireFlow. To modify the default values that are used to create this Change Request you can simply modify values in your `app.config` file. 
 
@@ -41,24 +46,19 @@ The fields are:
 * `isolation_request_requestor_email`- The Change Request Requestor Name.
 * `isolation_request_email`- The Change Request Requestor email.
 
-
-### List Associated Applications
-
-### Check Internet Connectivity
-
-#### Configuration
+#### Check Internet Connectivity
 
 As mentioned, the internet connectivity check function will use AlgoSec Firewall Analyzer. The Firewall Analyzer query will check if the given IP has access to a specific Internet Node with a specific traffic service. By default we check if there is connectivity to `http` on `8.8.8.8`. To modify the default values that are used for this traffic simulation query simply modify values in your `app.config` file. 
 
 The fields are:
 * `internet_connectivity_check_external_ip`- Defaults to `8.8.8.8`.
-* `internet_connectivity_check_service`- Default to `http`.
+* `internet_connectivity_check_service`- Default to `any service`.
 
 ## Installation & Configuration
 
 ### TL; DR
 
-You are busy, you have no time for explanations. We get it, you'll catch up with all the explanations later...right?
+You are busy, you have no time for explanations. We get it, you'll catch up with all the explanations later... Right?
 
 1. Run this:
     
